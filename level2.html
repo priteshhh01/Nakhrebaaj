@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project GUPTI | Level 2</title>
-    <!-- GSAP for God-Level Animations -->
+    <!-- GSAP for smooth animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- Premium Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;500;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            background-color: #050505;
+            /* Cinematic Dark Romantic Background */
+            background: linear-gradient(135deg, #0d0614, #26071a, #0b1121);
+            background-size: 300% 300%;
+            animation: bgPulse 12s ease infinite;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -24,6 +26,12 @@
             -webkit-user-select: none;
         }
 
+        @keyframes bgPulse {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         /* --- THE SCANNER SCENE --- */
         #scanner-scene {
             display: flex;
@@ -33,53 +41,67 @@
             z-index: 10;
         }
 
-        .status-text {
-            font-size: 1.1rem;
+        /* Text now has a fixed height and smooth transition */
+        .status-container {
+            height: 60px;
             margin-bottom: 40px;
-            letter-spacing: 1px;
-            height: 30px;
-            color: #d1d1d1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        .status-text {
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: #e2dfeb;
+            font-weight: 300;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Glassmorphism Fingerprint Box */
         .fingerprint-btn {
-            width: 100px;
-            height: 120px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
+            width: 130px;
+            height: 130px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             position: relative;
-            transition: 0.3s;
-            box-shadow: 0 0 20px rgba(226, 54, 54, 0.1);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        /* SVG Fingerprint Icon */
         .fingerprint-icon {
-            width: 60px;
-            fill: #aaaaaa;
-            transition: 0.3s;
+            width: 70px;
+            fill: #8b859c;
+            transition: fill 0.4s ease;
         }
 
         /* Pulse Animation on Hold */
         .holding .fingerprint-btn {
-            border-color: #e23636;
-            box-shadow: 0 0 40px rgba(226, 54, 54, 0.6), inset 0 0 20px rgba(226, 54, 54, 0.4);
-            transform: scale(0.95);
+            border-color: #f26f8d;
+            background: rgba(242, 111, 141, 0.1);
+            box-shadow: 0 0 40px rgba(242, 111, 141, 0.4), inset 0 0 20px rgba(242, 111, 141, 0.2);
+            transform: scale(0.92);
         }
+        
         .holding .fingerprint-icon {
-            fill: #e23636;
+            fill: #f26f8d;
         }
 
         .ripple {
             position: absolute;
-            width: 100px;
-            height: 120px;
-            border-radius: 50px;
-            border: 2px solid #e23636;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 2px solid #f26f8d;
             opacity: 0;
+            pointer-events: none;
         }
 
         /* --- THE CERTIFICATE SCENE --- */
@@ -87,8 +109,10 @@
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: #111;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             opacity: 0;
@@ -98,15 +122,15 @@
         }
 
         .certificate {
-            background: #fdfbf7; /* Vintage Paper Color */
+            background: #fdfbf7;
             width: 90%;
-            max-width: 450px;
-            padding: 40px 25px;
+            max-width: 420px;
+            padding: 35px 25px;
             border-radius: 12px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             text-align: center;
             color: #2c2c2c;
-            border: 8px solid double #d4af37; /* Gold double border */
+            border: 8px solid double #d4af37;
             position: relative;
             background-image: radial-gradient(#e5e0d5 1px, transparent 1px);
             background-size: 20px 20px;
@@ -114,64 +138,81 @@
 
         .cert-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: #1a1a1a;
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
             border-bottom: 2px solid #d4af37;
             padding-bottom: 10px;
+            font-weight: 700;
         }
 
         .cert-body {
             font-size: 0.95rem;
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-weight: 500;
         }
 
         .highlight {
-            font-weight: 600;
-            color: #e23636;
+            font-weight: 700;
+            color: #a81c1c;
         }
 
-        /* Stamp & Signature Section */
         .signature-area {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-top: 40px;
+            margin-top: 30px;
             padding: 0 10px;
         }
 
         .stamp {
             width: 80px;
             height: 80px;
-            border: 3px solid #d82b2b;
+            border: 3px solid #a81c1c;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #d82b2b;
+            color: #a81c1c;
             font-weight: 700;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             transform: scale(5);
             opacity: 0;
             text-align: center;
             padding: 5px;
-            transform-origin: center;
             border-style: dashed;
         }
 
         .signature {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: #111;
             opacity: 0;
         }
 
-        /* Particle Canvas */
+        /* NEXT LEVEL BUTTON */
+        .next-btn {
+            margin-top: 30px;
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #f26f8d, #a81c1c);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(242, 111, 141, 0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 1px;
+            pointer-events: none; /* activated via JS */
+        }
+
         #particle-canvas {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -186,13 +227,13 @@
 
     <!-- LEVEL 2: SCANNER -->
     <div id="scanner-scene">
-        <div class="status-text" id="status">Place and hold thumb to verify...</div>
+        <div class="status-container">
+            <div class="status-text" id="status">Place and hold thumb to verify...</div>
+        </div>
         
         <div class="fingerprint-btn" id="touch-btn">
-            <!-- Simple SVG Fingerprint -->
             <svg class="fingerprint-icon" viewBox="0 0 24 24">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-5.5c0 .83-.67 1.5-1.5 1.5S7 15.33 7 14.5 7.67 13 8.5 13s1.5.67 1.5 1.5zm5 0c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm-2.5-4c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5z"/>
-                <!-- Added extra lines to make it look like a print -->
                 <path d="M12 6a6 6 0 0 0-6 6h2a4 4 0 0 1 8 0h2a6 6 0 0 0-6-6z"/>
             </svg>
             <div class="ripple" id="ripple1"></div>
@@ -200,14 +241,14 @@
         </div>
     </div>
 
-    <!-- THE BHOOM: CERTIFICATE -->
+    <!-- THE BHOOM: CERTIFICATE & NEXT BUTTON -->
     <div id="certificate-scene">
         <div class="certificate" id="cert-card">
             <div class="cert-title">Official Partnership Deed</div>
             <div class="cert-body">
-                By this digital thumbprint, it is officially declared that <span class="highlight">P. Gupteswari (The Ultimate Nakhrebaaz)</span> is now exclusively reserved for Pritesh.<br><br>
+                By this digital thumbprint, it is officially declared that <span class="highlight">P. Gupteswari (The Nakhrebaaz)</span> is now exclusively reserved for Pritesh.<br><br>
                 Tum legally bound ho meri har khinchai pe blush karne ke liye, aur main legally bound hu tumhare nakhre uthane ke liye.<br><br>
-                <span style="font-weight: 700;">Status: Deal Sealed. No Escaping Now. 😌❤️</span>
+                <span style="font-weight: 700; color: #111;">Status: Deal Sealed. 😌❤️</span>
             </div>
             
             <div class="signature-area">
@@ -215,6 +256,9 @@
                 <div class="signature" id="signature-text">P. Gupteswari</div>
             </div>
         </div>
+        
+        <!-- NEXT BUTTON -->
+        <button class="next-btn" id="next-btn">Accept & Continue →</button>
     </div>
 
     <script>
@@ -224,100 +268,97 @@
         const certScene = document.getElementById('certificate-scene');
         const stampMark = document.getElementById('stamp-mark');
         const signatureText = document.getElementById('signature-text');
+        const nextBtn = document.getElementById('next-btn');
 
         let holdTimer;
         let progress = 0;
         let isHolding = false;
         
-        // GSAP Ripple timelines
         let rippleAnim = gsap.timeline({paused: true, repeat: -1})
-            .to("#ripple1", {scale: 1.8, opacity: 0, duration: 1.5, ease: "power1.out"})
-            .to("#ripple2", {scale: 1.8, opacity: 0, duration: 1.5, ease: "power1.out"}, "-=0.75");
+            .to("#ripple1", {scale: 1.6, opacity: 0, duration: 1.5, ease: "power1.out"})
+            .to("#ripple2", {scale: 1.6, opacity: 0, duration: 1.5, ease: "power1.out"}, "-=0.75");
 
-        // Touch Start / Mouse Down
+        // Function to smoothly change text so she can read it
+        function updateText(newText, color) {
+            statusText.style.opacity = 0;
+            setTimeout(() => {
+                statusText.innerHTML = newText;
+                statusText.style.color = color;
+                statusText.style.opacity = 1;
+            }, 300); // short delay for fade effect
+        }
+
         const startHold = (e) => {
-            e.preventDefault(); // Prevent default mobile behavior like context menu
-            if(progress >= 3) return; // Prevent re-trigger if already done
+            e.preventDefault(); 
+            if(progress >= 3) return; 
             
             isHolding = true;
             document.body.classList.add('holding');
             rippleAnim.play();
             
-            // The 3-second progression
+            // SLOWED DOWN: Now it takes 2.5 seconds per step so she can easily read it
             holdTimer = setInterval(() => {
                 progress++;
                 
                 if(progress === 1) {
-                    statusText.innerHTML = "Detecting Heartbeat... 💓";
-                    statusText.style.color = "#ff4d4d";
+                    updateText("Detecting Heartbeat... 💓", "#f26f8d");
                 } else if (progress === 2) {
-                    statusText.innerHTML = "Scanning Nakhre Level... 999% 📈";
-                    statusText.style.color = "#e23636";
-                    // Generate particles (Stars magic)
+                    updateText("Scanning Nakhre Level... 999% 📈", "#f26f8d");
                     createParticles();
                 } else if (progress === 3) {
-                    statusText.innerHTML = "Soul Connection Verified 💫";
+                    updateText("Soul Connection Verified 💫", "#fff");
                     clearInterval(holdTimer);
-                    triggerCertificate();
+                    setTimeout(triggerCertificate, 1000); // 1 extra second to read final text
                 }
-            }, 1000); // 1 second intervals
+            }, 2500); // 2.5 seconds interval
         };
 
-        // Touch End / Mouse Up
         const endHold = () => {
-            if(progress >= 3) return; // Ignore if already unlocked
+            if(progress >= 3) return; 
             
             isHolding = false;
             clearInterval(holdTimer);
             progress = 0;
             document.body.classList.remove('holding');
             rippleAnim.pause(0);
-            statusText.innerHTML = "Place and hold thumb to verify...";
-            statusText.style.color = "#d1d1d1";
+            updateText("Place and hold thumb to verify...", "#e2dfeb");
             document.getElementById('particle-canvas').getContext('2d').clearRect(0,0,window.innerWidth,window.innerHeight);
         };
 
-        // Event Listeners (Works for both mobile touch and PC click)
         touchBtn.addEventListener('mousedown', startHold);
         touchBtn.addEventListener('touchstart', startHold, {passive: false});
         window.addEventListener('mouseup', endHold);
         window.addEventListener('touchend', endHold);
 
-        // --- BHOOM ANIMATION: SHOW CERTIFICATE ---
+        // --- BHOOM ANIMATION: SHOW CERTIFICATE & BUTTON ---
         function triggerCertificate() {
             document.body.classList.remove('holding');
             rippleAnim.kill();
 
-            // Sequence of events
             const tl = gsap.timeline();
             
-            // 1. Fade out scanner
             tl.to(scannerScene, {opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.inOut"})
               .set(scannerScene, {display: "none"})
-              
-            // 2. Flash and show Certificate background
-              .set(certScene, {visibility: "visible"})
+              .set(certScene, {visibility: "visible", pointerEvents: "auto"})
               .to(certScene, {opacity: 1, duration: 0.5})
-              
-            // 3. Drop in the certificate paper
-              .from("#cert-card", {y: -100, rotation: 5, opacity: 0, duration: 0.8, ease: "back.out(1.2)"})
-              
-            // 4. THE STAMP BOOM! (Scale down aggressively and shake)
-              .to(stampMark, {scale: 1, opacity: 1, rotation: -15, duration: 0.4, ease: "power4.in", 
+              .from("#cert-card", {y: -50, rotation: 2, opacity: 0, duration: 0.8, ease: "back.out(1.2)"})
+              .to(stampMark, {scale: 1, opacity: 1, rotation: -10, duration: 0.4, ease: "power4.in", 
                     onComplete: () => {
-                        // Shake effect on stamp hit
-                        gsap.fromTo("#cert-card", 
-                            {x: -5, y: 5}, 
-                            {x: 0, y: 0, duration: 0.3, ease: "rough({strength: 2, points: 5})"}
-                        );
+                        gsap.fromTo("#cert-card", {x: -3, y: 3}, {x: 0, y: 0, duration: 0.2, ease: "rough({strength: 2, points: 5})"});
                     }
               })
-              
-            // 5. Signature types out smoothly
-              .to(signatureText, {opacity: 1, duration: 1.5, ease: "power2.out"}, "+=0.2");
+              .to(signatureText, {opacity: 1, duration: 1.5, ease: "power2.out"}, "+=0.2")
+              // SHOW NEXT BUTTON
+              .to(nextBtn, {opacity: 1, y: 0, duration: 0.5, ease: "power2.out", pointerEvents: "auto"}, "+=0.5");
         }
 
-        // --- SIMPLE PARTICLE SYSTEM FOR THE MAGIC AT 2 SECONDS ---
+        // NEXT BUTTON LOGIC
+        nextBtn.addEventListener('click', () => {
+            // Yahan hum Level 3 load karenge
+            window.location.href = "level3.html"; 
+        });
+
+        // --- PARTICLE SYSTEM ---
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -325,14 +366,14 @@
         let particles = [];
 
         function createParticles() {
-            for(let i=0; i<50; i++) {
+            for(let i=0; i<60; i++) {
                 particles.push({
                     x: window.innerWidth / 2,
                     y: window.innerHeight / 2,
-                    vx: (Math.random() - 0.5) * 15,
-                    vy: (Math.random() - 0.5) * 15,
-                    size: Math.random() * 4 + 1,
-                    color: Math.random() > 0.5 ? '#ff4d4d' : '#fbb873',
+                    vx: (Math.random() - 0.5) * 12,
+                    vy: (Math.random() - 0.5) * 12,
+                    size: Math.random() * 3 + 1,
+                    color: Math.random() > 0.5 ? '#f26f8d' : '#ffffff',
                     life: 1
                 });
             }
@@ -346,7 +387,7 @@
                 let p = particles[i];
                 p.x += p.vx;
                 p.y += p.vy;
-                p.life -= 0.02;
+                p.life -= 0.015;
                 ctx.globalAlpha = p.life > 0 ? p.life : 0;
                 ctx.fillStyle = p.color;
                 ctx.beginPath();
@@ -360,4 +401,3 @@
     </script>
 </body>
 </html>
-
