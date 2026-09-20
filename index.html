@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project GUPTI | Restricted Access</title>
+    <!-- GSAP for smooth cinematic animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace; /* Typewriter/Hacker vibe */
+        }
+
+        body {
+            background-color: #050505; /* Pitch Black */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Cinematic Spidey Glow (Red & Blue) */
+        .glow-red {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(226, 54, 54, 0.15) 0%, rgba(0,0,0,0) 70%);
+            z-index: 0;
+        }
+
+        .glow-blue {
+            position: absolute;
+            bottom: -10%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(43, 108, 226, 0.15) 0%, rgba(0,0,0,0) 70%);
+            z-index: 0;
+        }
+
+        /* Glassmorphism Card */
+        .glass-box {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        p {
+            color: #aaaaaa;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+
+        input:focus {
+            border-color: #e23636; /* Spidey Red Focus */
+            box-shadow: 0 0 15px rgba(226, 54, 54, 0.3);
+        }
+
+        .error-msg {
+            color: #e23636;
+            font-size: 0.8rem;
+            margin-top: 15px;
+            opacity: 0;
+            font-weight: bold;
+        }
+
+        /* Shake Animation for Wrong Password */
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-red"></div>
+    <div class="glow-blue"></div>
+
+    <div class="glass-box" id="level1-box">
+        <h2>Identity Verification</h2>
+        <p>Enter your secret passkey to access the world.</p>
+        
+        <input type="password" id="passkey" placeholder="Enter passkey..." autocomplete="off">
+        <div class="error-msg" id="error">Wrong passkey! Dimaag lagao thoda 😂</div>
+    </div>
+
+    <script>
+        const inputField = document.getElementById('passkey');
+        const errorMsg = document.getElementById('error');
+        const glassBox = document.getElementById('level1-box');
+
+        // Typing logic (Reveal text slightly then mask, or just use type="text" if you want her to see it)
+        // I kept type="password" to build mystery. She will type it blind.
+
+        inputField.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const val = inputField.value.trim().toLowerCase();
+                
+                if (val === 'nakhrebaaz') {
+                    // CORRECT PASSWORD - God Level GSAP Animation
+                    errorMsg.style.opacity = '0';
+                    inputField.style.borderColor = '#2b6ce2'; // Spidey Blue
+                    inputField.style.boxShadow = '0 0 15px rgba(43, 108, 226, 0.5)';
+                    
+                    // Cinematic fade out and scale up (Web jump effect)
+                    gsap.to(glassBox, {
+                        scale: 1.5,
+                        opacity: 0,
+                        duration: 1.2,
+                        ease: "power4.inOut",
+                        onComplete: () => {
+                            // Yahan hum Level 2 load karenge (abhi alert daal raha hu test ke liye)
+                            alert("BHOOM! Web shot fired! Level 2 unlocked.");
+                            // window.location.href = "level2.html"; 
+                        }
+                    });
+                } else {
+                    // WRONG PASSWORD - Shake and show tease
+                    errorMsg.style.opacity = '1';
+                    inputField.style.borderColor = '#e23636';
+                    glassBox.classList.remove('shake');
+                    // Trigger reflow to restart animation
+                    void glassBox.offsetWidth; 
+                    glassBox.classList.add('shake');
+                    inputField.value = ''; // clear input
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
