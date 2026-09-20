@@ -39,7 +39,7 @@
         .glass-box {
             position: relative;
             z-index: 10;
-            background: rgba(255, 255, 255, 0.15); /* Slightly brighter glass */
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -66,7 +66,6 @@
             font-weight: 300;
         }
 
-        /* Input field where text is VISIBLE */
         input {
             width: 100%;
             padding: 16px;
@@ -83,7 +82,6 @@
             letter-spacing: 1px;
         }
 
-        /* Placeholder color */
         input::placeholder {
             color: rgba(255, 255, 255, 0.6);
             font-weight: 300;
@@ -109,7 +107,6 @@
             border: 1px solid rgba(255,0,0,0.3);
         }
 
-        /* Shake Animation for Wrong Password */
         .shake {
             animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
         }
@@ -121,7 +118,6 @@
             40%, 60% { transform: translate3d(4px, 0, 0); }
         }
 
-        /* Enter Button */
         .submit-btn {
             margin-top: 20px;
             padding: 12px 25px;
@@ -146,10 +142,8 @@
 
     <div class="glass-box" id="level1-box">
         <h2>Secret Gateway</h2>
-        <!-- Text changed to be more mysterious -->
         <p>A special world awaits. Enter the secret passkey to unlock.</p>
         
-        <!-- Placeholder updated -->
         <input type="text" id="passkey" placeholder="Enter secret code..." autocomplete="off">
         
         <button class="submit-btn" id="submit-btn">Unlock</button>
@@ -166,9 +160,7 @@
         function checkPassword() {
             const val = inputField.value.trim().toLowerCase();
             
-            // MAGIC HERE: Accepts both "nakhrebaaz" and "nakhrebaaj"
             if (val === 'nakhrebaaz' || val === 'nakhrebaaj') {
-                // CORRECT PASSWORD - Smooth cinematic exit
                 errorMsg.style.opacity = '0';
                 inputField.style.borderColor = '#ffffff';
                 inputField.style.background = 'rgba(255, 255, 255, 0.5)';
@@ -180,30 +172,26 @@
                     duration: 1,
                     ease: "power2.inOut",
                     onComplete: () => {
-                        window.location.href = "level2.html";
-
+                        // YAHAN MAGIC HAI: Automatic Level 2 pe bhej dega
+                        window.location.href = "level2.html"; 
                     }
                 });
             } else {
-                // WRONG PASSWORD - Shake and show tease
                 errorMsg.style.opacity = '1';
                 glassBox.classList.remove('shake');
-                void glassBox.offsetWidth; // Trigger reflow
+                void glassBox.offsetWidth; 
                 glassBox.classList.add('shake');
-                inputField.value = ''; // clear input so she tries again
+                inputField.value = ''; 
             }
         }
 
-        // Allow pressing Enter on keyboard
         inputField.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 checkPassword();
             }
         });
 
-        // Allow tapping the Unlock button
         submitBtn.addEventListener('click', checkPassword);
-
     </script>
 </body>
 </html>
