@@ -3,103 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project GUPTI | Restricted Access</title>
+    <title>Project GUPTI | Secret Gateway</title>
     <!-- GSAP for smooth cinematic animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Google Fonts for a more romantic, premium look -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Courier New', Courier, monospace; /* Typewriter/Hacker vibe */
         }
 
         body {
-            background-color: #050505; /* Pitch Black */
+            /* Beautiful Romantic Gradient Background */
+            background: linear-gradient(135deg, #2b1055, #7597de, #f26f8d, #fbb873);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            position: relative;
+            font-family: 'Poppins', sans-serif;
         }
 
-        /* Cinematic Spidey Glow (Red & Blue) */
-        .glow-red {
-            position: absolute;
-            top: -10%;
-            left: -10%;
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, rgba(226, 54, 54, 0.15) 0%, rgba(0,0,0,0) 70%);
-            z-index: 0;
+        /* Smooth moving background animation */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .glow-blue {
-            position: absolute;
-            bottom: -10%;
-            right: -10%;
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, rgba(43, 108, 226, 0.15) 0%, rgba(0,0,0,0) 70%);
-            z-index: 0;
-        }
-
-        /* Glassmorphism Card */
+        /* Premium Glassmorphism Card */
         .glass-box {
             position: relative;
             z-index: 10;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.15); /* Slightly brighter glass */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            padding: 50px 30px;
             width: 90%;
-            max-width: 400px;
+            max-width: 380px;
             text-align: center;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
         h2 {
+            font-family: 'Playfair Display', serif;
             color: #ffffff;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
 
         p {
-            color: #aaaaaa;
-            font-size: 0.9rem;
-            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            font-weight: 300;
         }
 
+        /* Input field where text is VISIBLE */
         input {
             width: 100%;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
             color: #fff;
-            font-size: 1rem;
+            font-size: 1.1rem;
             text-align: center;
             outline: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
             letter-spacing: 1px;
         }
 
+        /* Placeholder color */
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 300;
+            font-size: 0.9rem;
+        }
+
         input:focus {
-            border-color: #e23636; /* Spidey Red Focus */
-            box-shadow: 0 0 15px rgba(226, 54, 54, 0.3);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            transform: scale(1.02);
         }
 
         .error-msg {
-            color: #e23636;
-            font-size: 0.8rem;
+            color: #ffcccc;
+            font-size: 0.85rem;
             margin-top: 15px;
             opacity: 0;
-            font-weight: bold;
+            font-weight: 400;
+            background: rgba(255, 0, 0, 0.2);
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,0,0,0.3);
         }
 
         /* Shake Animation for Wrong Password */
@@ -113,64 +120,88 @@
             30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
             40%, 60% { transform: translate3d(4px, 0, 0); }
         }
+
+        /* Enter Button (Added for better mobile UX) */
+        .submit-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #2b1055;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 <body>
 
-    <div class="glow-red"></div>
-    <div class="glow-blue"></div>
-
     <div class="glass-box" id="level1-box">
-        <h2>Identity Verification</h2>
-        <p>Enter your secret passkey to access the world.</p>
+        <h2>Secret Gateway</h2>
+        <p>A special world awaits. Enter your secret name to unlock.</p>
         
-        <input type="password" id="passkey" placeholder="Enter passkey..." autocomplete="off">
+        <!-- Changed type to "text" so she can see what she types -->
+        <input type="text" id="passkey" placeholder="Who are you?..." autocomplete="off">
+        
+        <button class="submit-btn" id="submit-btn">Unlock</button>
+
         <div class="error-msg" id="error">Wrong passkey! Dimaag lagao thoda 😂</div>
     </div>
 
     <script>
         const inputField = document.getElementById('passkey');
+        const submitBtn = document.getElementById('submit-btn');
         const errorMsg = document.getElementById('error');
         const glassBox = document.getElementById('level1-box');
 
-        // Typing logic (Reveal text slightly then mask, or just use type="text" if you want her to see it)
-        // I kept type="password" to build mystery. She will type it blind.
+        function checkPassword() {
+            const val = inputField.value.trim().toLowerCase();
+            
+            if (val === 'nakhrebaaz') {
+                // CORRECT PASSWORD - Smooth cinematic exit
+                errorMsg.style.opacity = '0';
+                inputField.style.borderColor = '#ffffff';
+                inputField.style.background = 'rgba(255, 255, 255, 0.5)';
+                
+                // Cinematic fade out and scale up
+                gsap.to(glassBox, {
+                    scale: 1.2,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        alert("Access Granted! Level 2 incoming...");
+                        // window.location.href = "level2.html"; 
+                    }
+                });
+            } else {
+                // WRONG PASSWORD - Shake and show tease
+                errorMsg.style.opacity = '1';
+                glassBox.classList.remove('shake');
+                void glassBox.offsetWidth; // Trigger reflow
+                glassBox.classList.add('shake');
+                inputField.value = ''; // clear input so she tries again
+            }
+        }
 
+        // Allow pressing Enter on keyboard
         inputField.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
-                const val = inputField.value.trim().toLowerCase();
-                
-                if (val === 'nakhrebaaz') {
-                    // CORRECT PASSWORD - God Level GSAP Animation
-                    errorMsg.style.opacity = '0';
-                    inputField.style.borderColor = '#2b6ce2'; // Spidey Blue
-                    inputField.style.boxShadow = '0 0 15px rgba(43, 108, 226, 0.5)';
-                    
-                    // Cinematic fade out and scale up (Web jump effect)
-                    gsap.to(glassBox, {
-                        scale: 1.5,
-                        opacity: 0,
-                        duration: 1.2,
-                        ease: "power4.inOut",
-                        onComplete: () => {
-                            // Yahan hum Level 2 load karenge (abhi alert daal raha hu test ke liye)
-                            alert("BHOOM! Web shot fired! Level 2 unlocked.");
-                            // window.location.href = "level2.html"; 
-                        }
-                    });
-                } else {
-                    // WRONG PASSWORD - Shake and show tease
-                    errorMsg.style.opacity = '1';
-                    inputField.style.borderColor = '#e23636';
-                    glassBox.classList.remove('shake');
-                    // Trigger reflow to restart animation
-                    void glassBox.offsetWidth; 
-                    glassBox.classList.add('shake');
-                    inputField.value = ''; // clear input
-                }
+                checkPassword();
             }
         });
+
+        // Allow tapping the Unlock button
+        submitBtn.addEventListener('click', checkPassword);
+
     </script>
 </body>
 </html>
-
