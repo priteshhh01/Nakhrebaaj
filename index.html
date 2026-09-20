@@ -121,7 +121,7 @@
             40%, 60% { transform: translate3d(4px, 0, 0); }
         }
 
-        /* Enter Button (Added for better mobile UX) */
+        /* Enter Button */
         .submit-btn {
             margin-top: 20px;
             padding: 12px 25px;
@@ -146,10 +146,11 @@
 
     <div class="glass-box" id="level1-box">
         <h2>Secret Gateway</h2>
-        <p>A special world awaits. Enter your secret name to unlock.</p>
+        <!-- Text changed to be more mysterious -->
+        <p>A special world awaits. Enter the secret passkey to unlock.</p>
         
-        <!-- Changed type to "text" so she can see what she types -->
-        <input type="text" id="passkey" placeholder="Who are you?..." autocomplete="off">
+        <!-- Placeholder updated -->
+        <input type="text" id="passkey" placeholder="Enter secret code..." autocomplete="off">
         
         <button class="submit-btn" id="submit-btn">Unlock</button>
 
@@ -165,7 +166,8 @@
         function checkPassword() {
             const val = inputField.value.trim().toLowerCase();
             
-            if (val === 'nakhrebaaz') {
+            // MAGIC HERE: Accepts both "nakhrebaaz" and "nakhrebaaj"
+            if (val === 'nakhrebaaz' || val === 'nakhrebaaj') {
                 // CORRECT PASSWORD - Smooth cinematic exit
                 errorMsg.style.opacity = '0';
                 inputField.style.borderColor = '#ffffff';
